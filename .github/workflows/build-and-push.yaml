@@ -10,6 +10,10 @@ on:
       - '*'
 jobs:
   build:
+    permissions:
+        actions: read
+        contents: read
+        security-events: write
     name: Build & push docker image
     runs-on: ubuntu-latest
     env:
@@ -31,7 +35,16 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
-
+      - name: Generate VEX document
+        uses: kubescape/github-action@main
+        continue-on-error: true
+        with:
+         outputFile: true
+         format: sarif
+      - name: Upload Kubescape scan results to Github Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         if: ${{ github.ref_type == 'tag' }}
