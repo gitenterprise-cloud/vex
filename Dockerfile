@@ -1,11 +1,7 @@
-FROM amazoncorretto:21.0.1 as build
-COPY . /usr/app
-WORKDIR /usr/app
-RUN chmod +x mvnw && ./mvnw clean package
-
-FROM amazoncorretto:21.0.1-alpine3.18
-RUN mkdir /app
-COPY --from=build /usr/app/target/*.jar /app/com.springboot.starterkit.jar
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/app/com.springboot.starterkit.jar"]
+FROM ubuntu:18.04  
+LABEL maintainer="devs@demo.com" 
+RUN  apt-get -y update && apt-get -y install nginx
+COPY files/default /etc/nginx/sites-available/default
+COPY files/index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
