@@ -35,12 +35,13 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
+     
       - name: Generate VEX document
-        uses: kubescape/github-action@v3.0.5
+      - uses: kubescape/github-action@main
         continue-on-error: true
         with:
-         outputFile: results
-         format: sarif
+          format: sarif
+          outputFile: results
       - name: Upload Kubescape scan results to Github Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
