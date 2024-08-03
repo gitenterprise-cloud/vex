@@ -36,7 +36,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
       - name: Generate VEX document
-        uses: kubescape/github-action@main
+        uses: kubescape/github-action@v3.0.5
         continue-on-error: true
         with:
          outputFile: results
