@@ -1,4 +1,4 @@
-FROM ubuntu:18.04  
+FROM ubuntu:latest 
 LABEL maintainer="devs@demo.com" 
 RUN  apt-get -y update && apt-get -y install nginx
 COPY files/default /etc/nginx/sites-available/default
